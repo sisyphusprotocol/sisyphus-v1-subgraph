@@ -37,7 +37,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "promoter",
+        "name": "host",
         "type": "address"
       },
       {

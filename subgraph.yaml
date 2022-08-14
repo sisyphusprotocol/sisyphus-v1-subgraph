@@ -24,7 +24,7 @@ dataSources:
           handler: handleWhiteUserSet
         - event: EvWhiteTokenSet(indexed address,uint256)
           handler: handleWhiteTokenSet
-      file: ./src/campaign-factory-upgradable.ts
+      file: ./src/campaign-factory.ts
 
 templates:
   - name: Campaign

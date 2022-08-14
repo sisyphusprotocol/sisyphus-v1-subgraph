@@ -1,29 +1,53 @@
 type User @entity {
+  # user address
   id: ID!
-
-
-
-  
-}
-
-type Host @entity {
-  id: ID!
-
-
-
-
+  #
+  campaignParticipated: [UserCampaign!]! @derivedFrom(field: "user")
 }
 
 type Campaign @entity {
+  # Campaign address
   id: ID!
+  users: [UserCampaign!]! @derivedFrom(field: "campaign")
 
-
-
+  targetToken: String!
+  requiredAmount: BigInt!
 }
 
-type Record @entiry {
+type UserCampaign @entity {
+  # user address + campaign contract address
   id: ID!
+  user: User!
+  campaign: Campaign!
+  # whether is host
+  isHost: Boolean!
+  userStatus: UserStatus!
+  #
+  pendingReward: BigInt!
+  pendingUserReward: BigInt!
+  pendingHostReward: BigInt!
 
+  #
+  userRewardClaimed: Boolean!
+  #
+  hostRewardClaimed: Boolean!
 
+  records: [Record!] @derivedFrom(field: "userCampaign")
+}
 
+type Record @entity {
+  # user address + campaign address +　epoch number
+  id: ID!
+  epoch: BigInt!
+  contentUri: String!
+  userCampaign: UserCampaign!
+}
+
+enum UserStatus {
+  NotParticipate
+  Signed
+  Admitted
+  Refused
+  Sucess
+  Failure
 }

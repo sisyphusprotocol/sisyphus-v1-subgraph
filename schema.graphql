@@ -1,0 +1,29 @@
+type User @entity {
+  id: ID!
+
+
+
+  
+}
+
+type Host @entity {
+  id: ID!
+
+
+
+
+}
+
+type Campaign @entity {
+  id: ID!
+
+
+
+}
+
+type Record @entiry {
+  id: ID!
+
+
+
+}

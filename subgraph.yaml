@@ -1,0 +1,59 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CampaignFactoryUpgradable
+    network: mumbai
+    source:
+      address: "0xc3c11102abdbb97ee29cd1a6dc2ed8d7c7093b20"
+      abi: CampaignFactoryUpgradable
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: CampaignFactoryUpgradable
+          file: ./abis/CampaignFactoryUpgradable.json
+      eventHandlers:
+        - event: EvCampaignCreated(indexed address,indexed address)
+          handler: handleCampaignCreated
+        - event: EvWhiteUserSet(indexed address,bool)
+          handler: handleWhiteUserSet
+        - event: EvWhiteTokenSet(indexed address,uint256)
+          handler: handleWhiteTokenSet
+      file: ./src/campaign-factory-upgradable.ts
+
+templates:
+  - name: Campaign
+    kind: ethereum
+    network: mumbai
+    source:
+      abi: Campaign
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: Campaign
+          file: ./abis/Campaign.json
+      eventHandlers:
+        - event: EvSignUp(uint256)
+          handler: handleSignUp
+        - event: EvRegisterSuccessfully(uint256)
+          handler: handleRegister
+        - event: EvCheckIn(uint256,uint256,bytes32)
+          handler: handleCheckIn
+        - event: EvModifyRegistry(uint256[],bool[])
+          handler: handleModifyRegistry
+        - event: EvClaimReward(address,uint256)
+          handler: handleClaimReward
+        - event: EvFailure(uint256)
+          handler: handleFailure
+        - event: EvWithDraw(address,uint256,uint256)
+          handler: handlerWithDraw
+      file: ./src/campaign.ts

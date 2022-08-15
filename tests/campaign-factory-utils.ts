@@ -1,6 +1,9 @@
 import { newMockEvent, createMockedFunction } from "matchstick-as";
-import { ethereum, Address } from "@graphprotocol/graph-ts";
-import { EvCampaignCreated } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
+import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts";
+import {
+  EvCampaignCreated,
+  EvWhiteTokenSet,
+} from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
 
 export function createEvCampaignCreatedEvent(
   host: Address,
@@ -33,4 +36,21 @@ export function createEvCampaignCreatedEvent(
   ).returns([ethereum.Value.fromAddress(Address.zero())]);
 
   return campaignCreatedEvent;
+}
+
+export function createEvWhiteTokenSetEvent(
+  address: Address,
+  amount: BigInt
+): EvWhiteTokenSet {
+  let whiteTokenSetEvent = changetype<EvWhiteTokenSet>(newMockEvent());
+
+  whiteTokenSetEvent.parameters.push(
+    new ethereum.EventParam("token", ethereum.Value.fromAddress(address))
+  );
+
+  whiteTokenSetEvent.parameters.push(
+    new ethereum.EventParam("maxAmount", ethereum.Value.fromI32(amount.toI32()))
+  );
+
+  return whiteTokenSetEvent;
 }

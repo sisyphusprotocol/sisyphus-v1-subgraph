@@ -10,7 +10,7 @@ type Campaign @entity {
   id: ID!
   users: [UserCampaign!]! @derivedFrom(field: "campaign")
 
-  targetToken: String!
+  targetToken: Token!
   requiredAmount: BigInt!
 }
 
@@ -33,6 +33,12 @@ type UserCampaign @entity {
   hostRewardClaimed: Boolean!
 
   records: [Record!] @derivedFrom(field: "userCampaign")
+}
+
+type Token @entity {
+  # token address
+  id: ID!
+  maxAmount: BigInt!
 }
 
 type Record @entity {

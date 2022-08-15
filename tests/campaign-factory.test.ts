@@ -6,22 +6,28 @@ import {
   beforeAll,
   afterAll,
 } from "matchstick-as/assembly/index";
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { User, Campaign, UserCampaign, Record } from "../generated/schema";
 import { AdminChanged } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
-import { handleCampaignCreated } from "../src/campaign-factory";
-import { createEvCampaignCreatedEvent } from "./campaign-factory-utils";
+import {
+  handleCampaignCreated,
+  handleWhiteTokenSet,
+} from "../src/campaign-factory";
+import {
+  createEvCampaignCreatedEvent,
+  createEvWhiteTokenSetEvent,
+} from "./campaign-factory-utils";
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
 
-describe("Describe entity assertions", () => {
+describe("Handle campaign created", () => {
   beforeAll(() => {
     let previousAdmin = Address.fromString(
       "0x0000000000000000000000000000000000000001"
     );
     let newAdmin = Address.fromString(
-      "0x0000000000000000000000000000000000000001"
+      "0x0000000000000000000000000000000000000002"
     );
     let newCampaignCreateEvent = createEvCampaignCreatedEvent(
       previousAdmin,
@@ -55,4 +61,24 @@ describe("Describe entity assertions", () => {
     // // More assert options:
     // https://thegraph.com/docs/en/developer/matchstick/#asserts
   });
+});
+
+describe("Handle white token set", () => {
+  beforeAll(() => {
+    let tokenAddress = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    );
+    let allowAmount = new BigInt(10 * 18);
+    let newWhiteTokenSetEvent = createEvWhiteTokenSetEvent(
+      tokenAddress,
+      allowAmount
+    );
+    handleWhiteTokenSet(newWhiteTokenSetEvent);
+  });
+
+  afterAll(() => {
+    clearStore();
+  });
+
+  test("", () => {});
 });

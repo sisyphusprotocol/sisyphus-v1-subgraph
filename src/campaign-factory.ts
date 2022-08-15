@@ -4,13 +4,27 @@ import {
   EvCampaignCreated,
   BeaconUpgraded,
   Upgraded,
+  EvWhiteTokenSet,
 } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
-import { User, Campaign, UserCampaign } from "../generated/schema";
-import { fetchUser, readRequiredAmout, readTargetTokenAddress } from "./helper";
+import { User, Campaign, UserCampaign, Token } from "../generated/schema";
+import {
+  fetchUser,
+  readRequiredAmout,
+  readTargetTokenAddress,
+  fetchToken,
+} from "./helper";
+
+export function handleWhiteTokenSet(event: EvWhiteTokenSet): void {
+  const token = fetchToken(event.params.token.toHexString());
+
+  token.maxAmount = event.params.maxAmount;
+
+  token.save();
+}
 
 export function handleCampaignCreated(event: EvCampaignCreated): void {
   const campaign = new Campaign(event.params.campaignAddress.toHexString());
-  const user = fetchUser(event.params.promoter.toHexString());
+  const user = fetchUser(event.params.host.toHexString());
 
   campaign.requiredAmount = readRequiredAmout(campaign);
   campaign.targetToken = readTargetTokenAddress(campaign).toHexString();
@@ -31,5 +45,3 @@ export function handleCampaignCreated(event: EvCampaignCreated): void {
   userCampaign.save();
   user.save();
 }
-
-export function handleWhiteTokenSet(): void {}

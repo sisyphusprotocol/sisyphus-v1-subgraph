@@ -1,5 +1,5 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
-import { Campaign, User } from "../generated/schema";
+import { Campaign, Token, User } from "../generated/schema";
 
 import { Campaign as CampaignContract } from "../generated/templates/Campaign/Campaign";
 
@@ -34,4 +34,14 @@ export function fetchUser(address: string): User {
   }
   user.save();
   return user;
+}
+
+export function fetchToken(address: string): Token {
+  let token = Token.load(address);
+  if (token == null) {
+    token = new Token(address);
+    token.maxAmount = new BigInt(0);
+  }
+  token.save();
+  return token;
 }

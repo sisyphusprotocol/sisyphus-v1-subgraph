@@ -3,6 +3,7 @@ import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts";
 import {
   EvCampaignCreated,
   EvWhiteTokenSet,
+  EvWhiteUserSet,
 } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
 
 export function createEvCampaignCreatedEvent(
@@ -53,4 +54,21 @@ export function createEvWhiteTokenSetEvent(
   );
 
   return whiteTokenSetEvent;
+}
+
+export function createEvWhiteUserSetEvent(
+  user: Address,
+  status: boolean
+): EvWhiteUserSet {
+  let whiteUserSetEvent = changetype<EvWhiteUserSet>(newMockEvent());
+
+  whiteUserSetEvent.parameters.push(
+    new ethereum.EventParam("user", ethereum.Value.fromAddress(user))
+  );
+
+  whiteUserSetEvent.parameters.push(
+    new ethereum.EventParam("status", ethereum.Value.fromBoolean(status))
+  );
+
+  return whiteUserSetEvent;
 }

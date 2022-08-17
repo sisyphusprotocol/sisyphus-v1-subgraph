@@ -12,10 +12,12 @@ import { AdminChanged } from "../generated/CampaignFactoryUpgradable/CampaignFac
 import {
   handleCampaignCreated,
   handleWhiteTokenSet,
+  handleWhiteUserSet,
 } from "../src/campaign-factory";
 import {
   createEvCampaignCreatedEvent,
   createEvWhiteTokenSetEvent,
+  createEvWhiteUserSetEvent,
 } from "./campaign-factory-utils";
 
 // Tests structure (matchstick-as >=0.5.0)
@@ -80,5 +82,43 @@ describe("Handle white token set", () => {
     clearStore();
   });
 
-  test("", () => {});
+  test("nothing", () => {});
+});
+
+describe("Handle white user set", () => {
+  beforeAll(() => {
+    let userAddress = Address.fromString(
+      "0x0000000000000000000000000000000000000002"
+    );
+    let status = true;
+    let newWhiteUserSetEvent = createEvWhiteUserSetEvent(userAddress, status);
+    handleWhiteUserSet(newWhiteUserSetEvent);
+  });
+
+  afterAll(() => {
+    clearStore();
+  });
+
+  test("User entity created and stored", () => {
+    assert.fieldEquals(
+      "User",
+      "0x0000000000000000000000000000000000000002",
+      "canBeHost",
+      "true"
+    );
+
+    let userAddress = Address.fromString(
+      "0x0000000000000000000000000000000000000002"
+    );
+    let status = false;
+    let newWhiteUserSetEvent = createEvWhiteUserSetEvent(userAddress, status);
+    handleWhiteUserSet(newWhiteUserSetEvent);
+
+    assert.fieldEquals(
+      "User",
+      "0x0000000000000000000000000000000000000002",
+      "canBeHost",
+      "false"
+    );
+  });
 });

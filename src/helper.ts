@@ -31,6 +31,7 @@ export function fetchUser(address: string): User {
   let user = User.load(address);
   if (user == null) {
     user = new User(address);
+    user.canBeHost = false;
   }
   user.save();
   return user;

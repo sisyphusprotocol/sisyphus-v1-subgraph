@@ -5,6 +5,7 @@ import {
   BeaconUpgraded,
   Upgraded,
   EvWhiteTokenSet,
+  EvWhiteUserSet,
 } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
 import { User, Campaign, UserCampaign, Token } from "../generated/schema";
 import {
@@ -13,6 +14,12 @@ import {
   readTargetTokenAddress,
   fetchToken,
 } from "./helper";
+
+export function handleWhiteUserSet(event: EvWhiteUserSet): void {
+  const user = fetchUser(event.params.user.toHexString());
+  user.canBeHost = event.params.status;
+  user.save();
+}
 
 export function handleWhiteTokenSet(event: EvWhiteTokenSet): void {
   const token = fetchToken(event.params.token.toHexString());

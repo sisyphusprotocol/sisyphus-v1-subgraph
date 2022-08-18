@@ -47,6 +47,7 @@ type Record @entity {
   id: ID!
   epoch: BigInt!
   contentUri: String!
+  timestamp: BigInt!
   userCampaign: UserCampaign!
 }
 

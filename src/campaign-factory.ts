@@ -14,6 +14,7 @@ import {
   readRequiredAmout,
   readTargetTokenAddress,
   fetchToken,
+  fetchCampaign,
 } from "./helper";
 
 export function handleWhiteUserSet(event: EvWhiteUserSet): void {
@@ -34,11 +35,12 @@ export function handleCampaignCreated(event: EvCampaignCreated): void {
   // create data Source to track
   CampaignTemplate.create(event.params.campaignAddress);
 
-  const campaign = new Campaign(event.params.campaignAddress.toHexString());
+  const campaign = fetchCampaign(event.params.campaignAddress.toHexString());
   const user = fetchUser(event.params.host.toHexString());
+  const token = fetchToken(readTargetTokenAddress(campaign).toHexString());
 
   campaign.requiredAmount = readRequiredAmout(campaign);
-  campaign.targetToken = readTargetTokenAddress(campaign).toHexString();
+  campaign.targetToken = token.id;
 
   const userCampaign = new UserCampaign(`${user.id}-${campaign.id}`);
   userCampaign.user = user.id;

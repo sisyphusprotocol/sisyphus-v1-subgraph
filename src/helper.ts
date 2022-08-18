@@ -1,5 +1,11 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
-import { Campaign, Token, User, UserCampaign } from "../generated/schema";
+import {
+  Campaign,
+  Record,
+  Token,
+  User,
+  UserCampaign,
+} from "../generated/schema";
 
 import { Campaign as CampaignContract } from "../generated/templates/Campaign/Campaign";
 
@@ -27,10 +33,16 @@ export function readRequiredAmout(campaign: Campaign): BigInt {
   return requiredAmoutValue;
 }
 
-export function readOwner(campaign: Campaign, tokenId: BigInt): Address {
+export function readTokenOwner(campaign: Campaign, tokenId: BigInt): Address {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   const owner = cc.ownerOf(tokenId);
   return owner;
+}
+
+export function readCurrentEpoch(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const epoch = cc.currentEpoch();
+  return epoch;
 }
 
 export function fetchUser(address: string): User {
@@ -41,6 +53,17 @@ export function fetchUser(address: string): User {
   }
   user.save();
   return user;
+}
+
+export function fetchCampaign(address: string): Campaign {
+  let campaign = Campaign.load(address);
+  if (campaign == null) {
+    campaign = new Campaign(address);
+    campaign.requiredAmount = new BigInt(0);
+    campaign.targetToken = fetchToken(Address.zero().toHexString()).id;
+  }
+  campaign.save();
+  return campaign;
 }
 
 export function fetchToken(address: string): Token {
@@ -73,4 +96,25 @@ export function fetchUserCampaign(
   }
   userCampaign.save();
   return userCampaign;
+}
+
+export function fetchRecord(
+  user: User,
+  campaign: Campaign,
+  epoch: BigInt
+): Record {
+  let userCampaign = fetchUserCampaign(user, campaign);
+
+  let record = Record.load(`${userCampaign.id}-${epoch}`);
+
+  if (record == null) {
+    record = new Record(`${userCampaign.id}-${epoch}`);
+    record.epoch = epoch;
+    record.contentUri = "";
+    record.userCampaign = userCampaign.id;
+    record.timestamp = new BigInt(0);
+  }
+  record.save();
+
+  return record;
 }

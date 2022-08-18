@@ -1,20 +1,24 @@
-import { dataSource } from "@graphprotocol/graph-ts";
+import { Bytes, dataSource } from "@graphprotocol/graph-ts";
 import { Campaign, UserCampaign } from "../generated/schema";
 import {
+  EvCheckIn,
   EvRegisterSuccessfully,
   EvSignUp,
 } from "../generated/templates/Campaign/Campaign";
 import {
+  fetchCampaign,
   fetchUser,
   fetchUserCampaign,
-  readOwner,
+  readTokenOwner,
   readRequiredAmout,
+  readCurrentEpoch,
+  fetchRecord,
 } from "./helper";
 
 export function handleSignUp(event: EvSignUp): void {
-  const campaign = Campaign.load(dataSource.address.toString());
+  const campaign = fetchCampaign(dataSource.address.toString());
   const user = fetchUser(
-    readOwner(campaign, event.params.tokenId).toHexString()
+    readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
 
   const userCampaign = fetchUserCampaign(user, campaign);
@@ -31,13 +35,29 @@ export function handleSignUp(event: EvSignUp): void {
 export function handleRegisterSuccessfully(
   event: EvRegisterSuccessfully
 ): void {
-  const campaign = Campaign.load(dataSource.address.toString());
+  const campaign = fetchCampaign(dataSource.address.toString());
   const user = fetchUser(
-    readOwner(campaign, event.params.tokenId).toHexString()
+    readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
   const userCampaign = fetchUserCampaign(user, campaign);
 
   userCampaign.userStatus = "Admitted";
 
   userCampaign.save();
+}
+
+export function handleCheckIn(event: EvCheckIn): void {
+  const campaign = fetchCampaign(dataSource.address.toString());
+  const user = fetchUser(
+    readTokenOwner(campaign, event.params.tokenId).toHexString()
+  );
+  const userCampaign = fetchUserCampaign(user, campaign);
+  const epoch = readCurrentEpoch(campaign);
+
+  const record = fetchRecord(user, campaign, epoch);
+
+  record.timestamp = event.block.timestamp;
+  record.contentUri = event.params.contentUri.toString();
+
+  record.save();
 }

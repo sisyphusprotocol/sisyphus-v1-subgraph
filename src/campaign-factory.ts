@@ -7,6 +7,7 @@ import {
   EvWhiteTokenSet,
   EvWhiteUserSet,
 } from "../generated/CampaignFactoryUpgradable/CampaignFactoryUpgradable";
+import { Campaign as CampaignTemplate } from "../generated/templates";
 import { User, Campaign, UserCampaign, Token } from "../generated/schema";
 import {
   fetchUser,
@@ -30,6 +31,9 @@ export function handleWhiteTokenSet(event: EvWhiteTokenSet): void {
 }
 
 export function handleCampaignCreated(event: EvCampaignCreated): void {
+  // create data Source to track
+  CampaignTemplate.create(event.params.campaignAddress);
+
   const campaign = new Campaign(event.params.campaignAddress.toHexString());
   const user = fetchUser(event.params.host.toHexString());
 

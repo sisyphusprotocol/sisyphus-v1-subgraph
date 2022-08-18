@@ -21,6 +21,8 @@ dataSources:
       abis:
         - name: CampaignFactoryUpgradable
           file: ./abis/CampaignFactoryUpgradable.json
+        - name: Campaign
+          file: ./abis/Campaign.json
       eventHandlers:
         - event: EvCampaignCreated(indexed address,indexed address)
           handler: handleCampaignCreated

@@ -45,7 +45,7 @@ templates:
         - event: EvSignUp(uint256)
           handler: handleSignUp
         - event: EvRegisterSuccessfully(uint256)
-          handler: handleRegister
+          handler: handleRegisterSuccessfully
         - event: EvCheckIn(uint256,uint256,bytes32)
           handler: handleCheckIn
         - event: EvModifyRegistry(uint256[],bool[])

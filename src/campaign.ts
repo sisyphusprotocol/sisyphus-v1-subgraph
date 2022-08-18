@@ -51,7 +51,7 @@ export function handleCheckIn(event: EvCheckIn): void {
   const user = fetchUser(
     readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
-  const userCampaign = fetchUserCampaign(user, campaign);
+  // const userCampaign = fetchUserCampaign(user, campaign);
   const epoch = readCurrentEpoch(campaign);
 
   const record = fetchRecord(user, campaign, epoch);

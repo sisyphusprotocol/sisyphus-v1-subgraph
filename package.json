@@ -4,7 +4,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ sisyphus-protocol/subgraph",
+    "deploy": "graph deploy --product hosted-service --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sisyphusprotocol/sisyphus-v1-subgraph --access-token",
     "create-local": "graph create --node http://localhost:8020/ sisyphus-protocol/subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ sisyphus-protocol/subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sisyphus-protocol/subgraph",

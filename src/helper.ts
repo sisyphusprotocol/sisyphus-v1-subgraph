@@ -9,10 +9,22 @@ import {
 
 import { Campaign as CampaignContract } from "../generated/templates/Campaign/Campaign";
 
+export function readCampaignUri(campaign: Campaign): string {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  let uriValue = "";
+  let uriResilt = cc.try_campaignUri();
+
+  if (!uriResilt.reverted) {
+    uriValue = uriResilt.value.toString();
+  }
+
+  return uriValue;
+}
+
 export function readTargetTokenAddress(campaign: Campaign): Address {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   let targetTokenAddressValue = Address.zero();
-  let targetTokenAddressResult = cc.try_tokenAddress();
+  let targetTokenAddressResult = cc.try_targetToken();
 
   if (!targetTokenAddressResult.reverted) {
     targetTokenAddressValue = targetTokenAddressResult.value;
@@ -24,7 +36,7 @@ export function readTargetTokenAddress(campaign: Campaign): Address {
 export function readRequiredAmout(campaign: Campaign): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   let requiredAmoutValue = new BigInt(0);
-  let requiredAmoutResult = cc.try_tokenAmount();
+  let requiredAmoutResult = cc.try_requiredAmount();
 
   if (!requiredAmoutResult.reverted) {
     requiredAmoutValue = requiredAmoutResult.value;
@@ -59,6 +71,7 @@ export function fetchCampaign(address: string): Campaign {
   let campaign = Campaign.load(address);
   if (campaign == null) {
     campaign = new Campaign(address);
+    campaign.uri = "";
     campaign.requiredAmount = new BigInt(0);
     campaign.targetToken = fetchToken(Address.zero().toHexString()).id;
   }

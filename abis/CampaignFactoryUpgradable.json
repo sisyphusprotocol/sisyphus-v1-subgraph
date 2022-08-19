@@ -169,6 +169,11 @@
         "internalType": "uint256",
         "name": "periodLength",
         "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "campaignUri",
+        "type": "bytes32"
       }
     ],
     "name": "createCampaign",

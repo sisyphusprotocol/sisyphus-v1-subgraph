@@ -1,5 +1,5 @@
 import { newMockEvent, createMockedFunction } from "matchstick-as";
-import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts";
+import { ethereum, Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import {
   EvCampaignCreated,
   EvWhiteTokenSet,
@@ -26,15 +26,27 @@ export function createEvCampaignCreatedEvent(
 
   createMockedFunction(
     campaignAddress,
-    "tokenAmount",
-    "tokenAmount():(uint256)"
+    "requiredAmount",
+    "requiredAmount():(uint256)"
   ).returns([ethereum.Value.fromI32(10)]);
 
   createMockedFunction(
     campaignAddress,
-    "tokenAddress",
-    "tokenAddress():(address)"
+    "targetToken",
+    "targetToken():(address)"
   ).returns([ethereum.Value.fromAddress(Address.zero())]);
+
+  createMockedFunction(
+    campaignAddress,
+    "campaignUri",
+    "campaignUri():(bytes32)"
+  ).returns([
+    ethereum.Value.fromBytes(
+      Bytes.fromHexString(
+        "0x697066733a2f2f516d7878787878000000000000000000000000000000000000"
+      )
+    ),
+  ]);
 
   return campaignCreatedEvent;
 }

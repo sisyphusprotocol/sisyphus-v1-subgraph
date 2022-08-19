@@ -25,15 +25,13 @@ import {
 
 describe("Handle campaign created", () => {
   beforeAll(() => {
-    let previousAdmin = Address.fromString(
-      "0x0000000000000000000000000000000000000001"
-    );
-    let newAdmin = Address.fromString(
+    let host = Address.fromString("0x0000000000000000000000000000000000000001");
+    let campaignAddress = Address.fromString(
       "0x0000000000000000000000000000000000000002"
     );
     let newCampaignCreateEvent = createEvCampaignCreatedEvent(
-      previousAdmin,
-      newAdmin
+      host,
+      campaignAddress
     );
     handleCampaignCreated(newCampaignCreateEvent);
   });
@@ -46,14 +44,14 @@ describe("Handle campaign created", () => {
   // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
   test("ExampleEntity created and stored", () => {
-    // assert.entityCount("ExampleEntity", 1)
+    assert.entityCount("Campaign", 1);
     // // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
-    // assert.fieldEquals(
-    //   "ExampleEntity",
-    //   "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
-    //   "previousAdmin",
-    //   "0x0000000000000000000000000000000000000001"
-    // )
+    assert.fieldEquals(
+      "Campaign",
+      "0x0000000000000000000000000000000000000002",
+      "uri",
+      "ipfs://Qmxxxxx"
+    );
     // assert.fieldEquals(
     //   "ExampleEntity",
     //   "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",

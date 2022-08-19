@@ -11,6 +11,8 @@ type Campaign @entity {
   id: ID!
   users: [UserCampaign!]! @derivedFrom(field: "campaign")
 
+  uri: String!
+
   targetToken: Token!
   requiredAmount: BigInt!
 }

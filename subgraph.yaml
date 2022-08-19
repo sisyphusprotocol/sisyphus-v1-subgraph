@@ -9,9 +9,9 @@ dataSources:
     name: CampaignFactoryUpgradable
     network: mumbai
     source:
-      address: "0xc3c11102abdbb97ee29cd1a6dc2ed8d7c7093b20"
+      address: "0xf84937A3f58526EEE6aE9ef49D7084427eAD029c"
       abi: CampaignFactoryUpgradable
-      startBlock: 27618720
+      startBlock: 27691726
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

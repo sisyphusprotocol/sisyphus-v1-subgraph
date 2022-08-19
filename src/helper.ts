@@ -33,6 +33,13 @@ export function readTargetTokenAddress(campaign: Campaign): Address {
   return targetTokenAddressValue;
 }
 
+export function readIdx(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  let idxValue = cc._idx();
+
+  return idxValue;
+}
+
 export function readRequiredAmout(campaign: Campaign): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   let requiredAmoutValue = new BigInt(0);
@@ -98,6 +105,8 @@ export function fetchUserCampaign(
   if (userCampaign == null) {
     userCampaign = new UserCampaign(`${user.id}-${campaign.id}`);
     userCampaign.user = user.id;
+    // TODO: not good to set 0
+    userCampaign.tokenId = new BigInt(0);
     userCampaign.campaign = campaign.id;
     userCampaign.isHost = false;
     userCampaign.userStatus = "NotParticipate";

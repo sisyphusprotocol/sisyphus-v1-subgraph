@@ -1,4 +1,4 @@
-import { Bytes, dataSource } from "@graphprotocol/graph-ts";
+import { BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts";
 import { Campaign, UserCampaign } from "../generated/schema";
 import {
   EvCheckIn,
@@ -13,6 +13,7 @@ import {
   readRequiredAmout,
   readCurrentEpoch,
   fetchRecord,
+  readIdx,
 } from "./helper";
 
 export function handleSignUp(event: EvSignUp): void {
@@ -23,6 +24,7 @@ export function handleSignUp(event: EvSignUp): void {
 
   const userCampaign = fetchUserCampaign(user, campaign);
 
+  userCampaign.tokenId = readIdx(campaign).minus(new BigInt(1));
   userCampaign.userStatus = "Signed";
 
   // TODO: read onchain directly later

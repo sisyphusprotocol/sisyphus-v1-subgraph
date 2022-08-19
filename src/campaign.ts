@@ -17,14 +17,14 @@ import {
 } from "./helper";
 
 export function handleSignUp(event: EvSignUp): void {
-  const campaign = fetchCampaign(dataSource.address.toString());
+  const campaign = fetchCampaign(event.address.toHexString());
   const user = fetchUser(
     readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
 
   const userCampaign = fetchUserCampaign(user, campaign);
 
-  userCampaign.tokenId = readIdx(campaign).minus(new BigInt(1));
+  userCampaign.tokenId = event.params.tokenId;
   userCampaign.userStatus = "Signed";
 
   // TODO: read onchain directly later
@@ -37,7 +37,7 @@ export function handleSignUp(event: EvSignUp): void {
 export function handleRegisterSuccessfully(
   event: EvRegisterSuccessfully
 ): void {
-  const campaign = fetchCampaign(dataSource.address.toString());
+  const campaign = fetchCampaign(event.address.toHexString());
   const user = fetchUser(
     readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
@@ -49,7 +49,7 @@ export function handleRegisterSuccessfully(
 }
 
 export function handleCheckIn(event: EvCheckIn): void {
-  const campaign = fetchCampaign(dataSource.address.toString());
+  const campaign = fetchCampaign(event.address.toHexString());
   const user = fetchUser(
     readTokenOwner(campaign, event.params.tokenId).toHexString()
   );

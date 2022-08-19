@@ -16,6 +16,7 @@ import {
   fetchToken,
   fetchCampaign,
   readCampaignUri,
+  fetchUserCampaign,
 } from "./helper";
 
 export function handleWhiteUserSet(event: EvWhiteUserSet): void {
@@ -44,7 +45,7 @@ export function handleCampaignCreated(event: EvCampaignCreated): void {
   campaign.uri = readCampaignUri(campaign);
   campaign.targetToken = token.id;
 
-  const userCampaign = new UserCampaign(`${user.id}-${campaign.id}`);
+  const userCampaign = fetchUserCampaign(user, campaign);
   userCampaign.user = user.id;
   userCampaign.campaign = campaign.id;
   userCampaign.isHost = true;

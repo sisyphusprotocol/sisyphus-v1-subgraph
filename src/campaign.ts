@@ -101,5 +101,7 @@ export function handleClaimReward(event: EvClaimReward): void {
 
   userCampaign.userRewardClaimed = true;
 
-  // userCampaign.pendingUserReward = readPendingReward();
+  userCampaign.pendingUserReward = readPendingUserReward(user, campaign);
+
+  userCampaign.save();
 }

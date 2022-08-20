@@ -18,6 +18,7 @@ import {
   readCampaignUri,
   fetchUserCampaign,
 } from "./helper";
+import { campaignIgnoredList } from "./const";
 
 export function handleWhiteUserSet(event: EvWhiteUserSet): void {
   const user = fetchUser(event.params.user.toHexString());
@@ -34,6 +35,13 @@ export function handleWhiteTokenSet(event: EvWhiteTokenSet): void {
 }
 
 export function handleCampaignCreated(event: EvCampaignCreated): void {
+  // if campaign should be ignored, return
+  if (
+    campaignIgnoredList.includes(event.params.campaignAddress.toHexString())
+  ) {
+    return;
+  }
+
   // create data Source to track
   CampaignTemplate.create(event.params.campaignAddress);
 

@@ -7,6 +7,7 @@ import {
   EvRegisterSuccessfully,
   EvSettle,
   EvSignUp,
+  EvWithDraw,
 } from "../generated/templates/Campaign/Campaign";
 import {
   fetchCampaign,
@@ -102,6 +103,16 @@ export function handleClaimReward(event: EvClaimReward): void {
   userCampaign.userRewardClaimed = true;
 
   userCampaign.pendingUserReward = readPendingUserReward(user, campaign);
+
+  userCampaign.save();
+}
+
+export function handleWithDraw(event: EvWithDraw): void {
+  const campaign = fetchCampaign(event.address.toHexString());
+  const user = fetchUser(event.params.host.toHexString());
+
+  const userCampaign = fetchUserCampaign(user, campaign);
+  userCampaign.hostRewardClaimed = true;
 
   userCampaign.save();
 }

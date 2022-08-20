@@ -6,3 +6,7 @@ vscode:
     - 'esbenp.prettier-vscode'
     - 'redjue.git-commit-plugin'
     - 'eamodio.gitlens'
+
+tasks:
+  - name: Start
+    init: yarn && yarn codegen

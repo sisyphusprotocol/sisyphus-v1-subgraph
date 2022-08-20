@@ -15,6 +15,9 @@ type Campaign @entity {
 
   targetToken: Token!
   requiredAmount: BigInt!
+  sharedReward: BigInt!
+  settled: Boolean!
+  sucessCount: BigInt!
 }
 
 type UserCampaign @entity {
@@ -26,6 +29,8 @@ type UserCampaign @entity {
   # whether is host
   isHost: Boolean!
   userStatus: UserStatus!
+  failure: Boolean!
+
   #
   pendingReward: BigInt!
   pendingUserReward: BigInt!

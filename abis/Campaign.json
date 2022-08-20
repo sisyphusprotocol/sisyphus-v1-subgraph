@@ -138,14 +138,14 @@
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "address",
-                "name": "",
-                "type": "address"
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
             },
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "",
+                "name": "amount",
                 "type": "uint256"
             }
         ],
@@ -158,7 +158,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "",
+                "name": "tokenId",
                 "type": "uint256"
             }
         ],
@@ -202,6 +202,19 @@
         "inputs": [
             {
                 "indexed": false,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "EvSettle",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "internalType": "uint256",
                 "name": "tokenId",
                 "type": "uint256"
@@ -222,13 +235,13 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "",
+                "name": "hostReward",
                 "type": "uint256"
             },
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "",
+                "name": "protocolFee",
                 "type": "uint256"
             }
         ],

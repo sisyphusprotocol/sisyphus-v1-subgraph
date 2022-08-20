@@ -40,6 +40,26 @@ export function readIdx(campaign: Campaign): BigInt {
   return idxValue;
 }
 
+export function readSuccessCount(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const count = cc.successTokensCount();
+  return count;
+}
+
+export function readPendingUserReward(user: User, campaign: Campaign): BigInt {
+  const userCampaign = fetchUserCampaign(user, campaign);
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const pendingReward = cc.properties(userCampaign.tokenId).getPendingReward();
+
+  return pendingReward;
+}
+
+export function readSharedReward(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const sharedReward = cc.sharedReward();
+  return sharedReward;
+}
+
 export function readRequiredAmout(campaign: Campaign): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   let requiredAmoutValue = new BigInt(0);
@@ -81,6 +101,9 @@ export function fetchCampaign(address: string): Campaign {
     campaign.uri = "";
     campaign.requiredAmount = new BigInt(0);
     campaign.targetToken = fetchToken(Address.zero().toHexString()).id;
+    campaign.settled = false;
+    campaign.sucessCount = new BigInt(0);
+    campaign.sharedReward = new BigInt(0);
   }
   campaign.save();
   return campaign;
@@ -115,6 +138,7 @@ export function fetchUserCampaign(
     userCampaign.pendingHostReward = new BigInt(0);
     userCampaign.userRewardClaimed = false;
     userCampaign.hostRewardClaimed = false;
+    userCampaign.failure = false;
   }
   userCampaign.save();
   return userCampaign;

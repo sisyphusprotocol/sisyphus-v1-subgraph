@@ -56,7 +56,9 @@ templates:
           handler: handleCheckIn
         - event: EvModifyRegistry(uint256[],bool[])
           handler: handleModifyRegistry
-        - event: EvClaimReward(address,uint256)
+        - event: EvSettle(address)
+          handler: handleSettle
+        - event: EvClaimReward(uint256,uint256)
           handler: handleClaimReward
         - event: EvFailure(uint256)
           handler: handleFailure

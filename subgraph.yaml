@@ -63,5 +63,5 @@ templates:
         - event: EvFailure(uint256)
           handler: handleFailure
         - event: EvWithDraw(address,uint256,uint256)
-          handler: handlerWithDraw
+          handler: handleWithDraw
       file: ./src/campaign.ts

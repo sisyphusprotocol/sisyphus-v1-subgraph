@@ -84,6 +84,24 @@ export function readCurrentEpoch(campaign: Campaign): BigInt {
   return epoch;
 }
 
+export function readStartTime(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const startTime = cc.startTime();
+  return startTime;
+}
+
+export function readPeriod(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const period = cc.period();
+  return period;
+}
+
+export function readTotalEpochsCount(campaign: Campaign): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const readTotalEpochsCount = cc.totalEpochsCount();
+  return readTotalEpochsCount;
+}
+
 export function fetchUser(address: string): User {
   let user = User.load(address);
   if (user == null) {
@@ -99,6 +117,11 @@ export function fetchCampaign(address: string): Campaign {
   if (campaign == null) {
     campaign = new Campaign(address);
     campaign.uri = "";
+    campaign.startTime = readStartTime(campaign);
+    campaign.totalLength = readPeriod(campaign).times(
+      readTotalEpochsCount(campaign)
+    );
+    campaign.memberCount = new BigInt(0);
     campaign.requiredAmount = new BigInt(0);
     campaign.targetToken = fetchToken(Address.zero().toHexString()).id;
     campaign.settled = false;

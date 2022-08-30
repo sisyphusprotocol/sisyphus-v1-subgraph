@@ -118,7 +118,7 @@ export function fetchCampaign(address: string): Campaign {
     campaign = new Campaign(address);
     campaign.uri = "";
     campaign.startTime = readStartTime(campaign);
-    campaign.totalLength = readPeriod(campaign).times(
+    campaign.totalTime = readPeriod(campaign).times(
       readTotalEpochsCount(campaign)
     );
     campaign.memberCount = new BigInt(0);

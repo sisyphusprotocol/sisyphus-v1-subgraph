@@ -14,7 +14,7 @@ type Campaign @entity {
   uri: String!
 
   startTime: BigInt!
-  totalLength: BigInt!
+  totalTime: BigInt!
 
   "how many join the campaign"
   memberCount: BigInt!

@@ -44,10 +44,15 @@ export function handleRegisterSuccessfully(
   event: EvRegisterSuccessfully
 ): void {
   const campaign = fetchCampaign(event.address.toHexString());
+
   const user = fetchUser(
     readTokenOwner(campaign, event.params.tokenId).toHexString()
   );
   const userCampaign = fetchUserCampaign(user, campaign);
+
+  // TODO: delte if disallow
+  campaign.memberCount = campaign.memberCount.plus(new BigInt(1));
+  campaign.save();
 
   userCampaign.userStatus = "Admitted";
 

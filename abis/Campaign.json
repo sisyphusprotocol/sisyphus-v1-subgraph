@@ -37,9 +37,9 @@
                 "type": "uint256"
             },
             {
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "campaignUri_",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "stateMutability": "nonpayable",
@@ -100,9 +100,9 @@
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "newUri",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "name": "EvCampaignUriSet",
@@ -125,9 +125,9 @@
             },
             {
                 "indexed": false,
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "contentUri",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "name": "EvCheckIn",
@@ -221,6 +221,19 @@
             }
         ],
         "name": "EvSignUp",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "EvSuccess",
         "type": "event"
     },
     {
@@ -360,9 +373,9 @@
         "name": "campaignUri",
         "outputs": [
             {
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "stateMutability": "view",
@@ -371,9 +384,9 @@
     {
         "inputs": [
             {
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "contentUri",
-                "type": "bytes32"
+                "type": "string"
             },
             {
                 "internalType": "uint256",
@@ -610,9 +623,9 @@
         "name": "records",
         "outputs": [
             {
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "contentUri",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "stateMutability": "view",
@@ -710,9 +723,9 @@
     {
         "inputs": [
             {
-                "internalType": "bytes32",
+                "internalType": "string",
                 "name": "newUri",
-                "type": "bytes32"
+                "type": "string"
             }
         ],
         "name": "setCampaignUri",

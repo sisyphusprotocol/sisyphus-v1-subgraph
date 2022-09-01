@@ -15,7 +15,7 @@ export function readCampaignUri(campaign: Campaign): string {
   let uriResilt = cc.try_campaignUri();
 
   if (!uriResilt.reverted) {
-    uriValue = uriResilt.value.toString();
+    uriValue = uriResilt.value;
   }
 
   return uriValue;

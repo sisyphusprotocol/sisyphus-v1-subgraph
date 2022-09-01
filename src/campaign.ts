@@ -70,7 +70,7 @@ export function handleCheckIn(event: EvCheckIn): void {
   const record = fetchRecord(user, campaign, epoch);
 
   record.timestamp = event.block.timestamp;
-  record.contentUri = event.params.contentUri.toString();
+  record.contentUri = event.params.contentUri;
 
   record.save();
 }

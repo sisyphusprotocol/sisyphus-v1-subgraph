@@ -9,9 +9,9 @@ dataSources:
     name: CampaignFactoryUpgradable
     network: mumbai
     source:
-      address: "0xf84937A3f58526EEE6aE9ef49D7084427eAD029c"
+      address: "0x55ED0dc05cfb286FaDbe8607e53962f56525fC7D"
       abi: CampaignFactoryUpgradable
-      startBlock: 27691726
+      startBlock: 27878371
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -52,7 +52,7 @@ templates:
           handler: handleSignUp
         - event: EvRegisterSuccessfully(uint256)
           handler: handleRegisterSuccessfully
-        - event: EvCheckIn(uint256,uint256,bytes32)
+        - event: EvCheckIn(uint256,uint256,string)
           handler: handleCheckIn
         - event: EvModifyRegistry(uint256[],bool[])
           handler: handleModifyRegistry

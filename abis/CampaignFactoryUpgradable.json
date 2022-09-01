@@ -171,9 +171,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "campaignUri",
-        "type": "bytes32"
+        "type": "string"
       }
     ],
     "name": "createCampaign",

@@ -15,6 +15,7 @@ type Campaign @entity {
 
   startTime: BigInt!
   totalTime: BigInt!
+  endTime: BigInt!
 
   "how many join the campaign"
   memberCount: BigInt!

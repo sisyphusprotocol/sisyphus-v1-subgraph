@@ -121,6 +121,7 @@ export function fetchCampaign(address: string): Campaign {
     campaign.totalTime = readPeriod(campaign).times(
       readTotalEpochsCount(campaign)
     );
+    campaign.endTime = campaign.startTime.plus(campaign.totalTime);
     campaign.memberCount = new BigInt(0);
     campaign.requiredAmount = new BigInt(0);
     campaign.targetToken = fetchToken(Address.zero().toHexString()).id;

@@ -51,11 +51,12 @@ export function handleRegisterSuccessfully(
   const userCampaign = fetchUserCampaign(user, campaign);
 
   // TODO: delte if disallow
-  campaign.memberCount = campaign.memberCount.plus(new BigInt(1));
-  campaign.save();
+
+  campaign.memberCount = campaign.memberCount.plus(BigInt.fromI64(1));
 
   userCampaign.userStatus = "Admitted";
 
+  campaign.save();
   userCampaign.save();
 }
 

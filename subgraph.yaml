@@ -64,4 +64,6 @@ templates:
           handler: handleFailure
         - event: EvWithDraw(address,uint256,uint256)
           handler: handleWithDraw
+        - event: EvCampaignUriSet(string)
+          handler: handleCampaignUriSet
       file: ./src/campaign.ts

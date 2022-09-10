@@ -1,6 +1,7 @@
 import { BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts";
 import { Campaign, UserCampaign } from "../generated/schema";
 import {
+  EvCampaignUriSet,
   EvCheckIn,
   EvClaimReward,
   EvFailure,
@@ -121,4 +122,9 @@ export function handleWithDraw(event: EvWithDraw): void {
   userCampaign.hostRewardClaimed = true;
 
   userCampaign.save();
+}
+
+export function handleCampaignUriSet(event: EvCampaignUriSet): void {
+  const campaign = fetchCampaign(event.address.toHexString());
+  campaign.save();
 }

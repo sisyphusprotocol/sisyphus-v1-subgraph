@@ -116,7 +116,6 @@ export function fetchCampaign(address: string): Campaign {
   let campaign = Campaign.load(address);
   if (campaign == null) {
     campaign = new Campaign(address);
-    campaign.uri = "";
     campaign.startTime = readStartTime(campaign);
     campaign.totalTime = readPeriod(campaign).times(
       readTotalEpochsCount(campaign)
@@ -129,6 +128,9 @@ export function fetchCampaign(address: string): Campaign {
     campaign.sucessCount = new BigInt(0);
     campaign.sharedReward = new BigInt(0);
   }
+  // uri may change, so always fetch
+  campaign.uri = readCampaignUri(campaign);
+
   campaign.save();
   return campaign;
 }

@@ -45,8 +45,13 @@ type UserCampaign @entity {
 
   #
   userRewardClaimed: Boolean!
+  # 
+  userRewardClaimedAmount: BigInt
+
   #
   hostRewardClaimed: Boolean!
+  hostRewardClaimedAmount: BigInt
+
 
   records: [Record!] @derivedFrom(field: "userCampaign")
 }

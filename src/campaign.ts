@@ -108,6 +108,7 @@ export function handleClaimReward(event: EvClaimReward): void {
   const userCampaign = fetchUserCampaign(user, campaign);
 
   userCampaign.userRewardClaimed = true;
+  userCampaign.userRewardClaimedAmount = event.params.amount;
 
   userCampaign.pendingUserReward = readPendingUserReward(user, campaign);
 
@@ -120,6 +121,7 @@ export function handleWithDraw(event: EvWithDraw): void {
 
   const userCampaign = fetchUserCampaign(user, campaign);
   userCampaign.hostRewardClaimed = true;
+  userCampaign.hostRewardClaimedAmount = event.params.hostReward;
 
   userCampaign.save();
 }

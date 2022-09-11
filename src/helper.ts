@@ -117,6 +117,7 @@ export function fetchCampaign(address: string): Campaign {
   if (campaign == null) {
     campaign = new Campaign(address);
     campaign.startTime = readStartTime(campaign);
+    campaign.periodLength = readPeriod(campaign);
     campaign.totalTime = readPeriod(campaign).times(
       readTotalEpochsCount(campaign)
     );

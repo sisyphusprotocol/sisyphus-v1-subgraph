@@ -54,8 +54,21 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "contract ICampaign",
+        "name": "newImplementation",
+        "type": "address"
+      }
+    ],
+    "name": "EvCampaignUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
-        "internalType": "contract IERC20",
+        "internalType": "contract IERC20Upgradeable",
         "name": "token",
         "type": "address"
       },
@@ -136,7 +149,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IERC20Upgradeable",
         "name": "token",
         "type": "address"
       },
@@ -174,15 +187,86 @@
         "internalType": "string",
         "name": "campaignUri",
         "type": "string"
+      },
+      {
+        "internalType": "bytes",
+        "name": "zero",
+        "type": "bytes"
       }
     ],
     "name": "createCampaign",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "campaign",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
+    "name": "i_campaign",
+    "outputs": [
+      {
+        "internalType": "contract ICampaign",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "i_link",
+    "outputs": [
+      {
+        "internalType": "contract LinkTokenInterface",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "i_registry",
+    "outputs": [
+      {
+        "internalType": "contract AutomationRegistryInterface",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ICampaign",
+        "name": "campaign_",
+        "type": "address"
+      },
+      {
+        "internalType": "contract LinkTokenInterface",
+        "name": "link_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "registrar_",
+        "type": "address"
+      },
+      {
+        "internalType": "contract AutomationRegistryInterface",
+        "name": "registry_",
+        "type": "address"
+      }
+    ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -191,7 +275,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IERC20Upgradeable",
         "name": "token",
         "type": "address"
       },
@@ -202,24 +286,6 @@
       }
     ],
     "name": "modifyWhiteToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "status",
-        "type": "bool"
-      }
-    ],
-    "name": "modifyWhiteUser",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -252,6 +318,19 @@
   },
   {
     "inputs": [],
+    "name": "registrar",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -266,6 +345,19 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ICampaign",
+        "name": "newImplementation",
+        "type": "address"
+      }
+    ],
+    "name": "updateCampaignImplementation",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -304,7 +396,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IERC20Upgradeable",
         "name": "",
         "type": "address"
       }

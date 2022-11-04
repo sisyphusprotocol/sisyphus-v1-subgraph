@@ -60,7 +60,7 @@ export function readSharedReward(campaign: Campaign): BigInt {
   return sharedReward;
 }
 
-export function readRequiredAmout(campaign: Campaign): BigInt {
+export function readRequiredAmount(campaign: Campaign): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
   let requiredAmoutValue = new BigInt(0);
   let requiredAmoutResult = cc.try_requiredAmount();
@@ -126,7 +126,7 @@ export function fetchCampaign(address: string): Campaign {
     campaign.requiredAmount = new BigInt(0);
     campaign.targetToken = fetchToken(Address.zero().toHexString()).id;
     campaign.settled = false;
-    campaign.sucessCount = new BigInt(0);
+    campaign.successCount = new BigInt(0);
     campaign.sharedReward = new BigInt(0);
   }
   // uri may change, so always fetch

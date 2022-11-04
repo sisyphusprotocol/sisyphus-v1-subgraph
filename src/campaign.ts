@@ -15,7 +15,7 @@ import {
   fetchUser,
   fetchUserCampaign,
   readTokenOwner,
-  readRequiredAmout,
+  readRequiredAmount,
   readCurrentEpoch,
   fetchRecord,
   readIdx,
@@ -51,7 +51,7 @@ export function handleRegisterSuccessfully(
   );
   const userCampaign = fetchUserCampaign(user, campaign);
 
-  // TODO: delte if disallow
+  // TODO: delete if disallow
 
   campaign.memberCount = campaign.memberCount.plus(BigInt.fromI64(1));
 
@@ -81,7 +81,7 @@ export function handleSettle(event: EvSettle): void {
   const campaign = fetchCampaign(event.address.toHexString());
 
   campaign.settled = true;
-  campaign.sucessCount = readSuccessCount(campaign);
+  campaign.successCount = readSuccessCount(campaign);
   campaign.sharedReward = readSharedReward(campaign);
 
   campaign.save();

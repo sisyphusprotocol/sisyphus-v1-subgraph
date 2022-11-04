@@ -25,7 +25,7 @@ type Campaign @entity {
   requiredAmount: BigInt!
   sharedReward: BigInt!
   settled: Boolean!
-  sucessCount: BigInt!
+  successCount: BigInt!
 }
 
 type UserCampaign @entity {

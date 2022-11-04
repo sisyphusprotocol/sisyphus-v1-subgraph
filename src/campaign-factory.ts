@@ -11,7 +11,7 @@ import { Campaign as CampaignTemplate } from "../generated/templates";
 import { User, Campaign, UserCampaign, Token } from "../generated/schema";
 import {
   fetchUser,
-  readRequiredAmout,
+  readRequiredAmount,
   readTargetTokenAddress,
   fetchToken,
   fetchCampaign,
@@ -49,7 +49,7 @@ export function handleCampaignCreated(event: EvCampaignCreated): void {
   const user = fetchUser(event.params.host.toHexString());
   const token = fetchToken(readTargetTokenAddress(campaign).toHexString());
 
-  campaign.requiredAmount = readRequiredAmout(campaign);
+  campaign.requiredAmount = readRequiredAmount(campaign);
   campaign.uri = readCampaignUri(campaign);
   campaign.targetToken = token.id;
 

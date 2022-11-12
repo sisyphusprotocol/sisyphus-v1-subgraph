@@ -49,7 +49,8 @@ export function readSuccessCount(campaign: Campaign): BigInt {
 export function readPendingUserReward(user: User, campaign: Campaign): BigInt {
   const userCampaign = fetchUserCampaign(user, campaign);
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  const pendingReward = cc.properties(userCampaign.tokenId).getPendingReward();
+  const pendingReward = cc.getTokenProperties(userCampaign.tokenId)
+    .pendingReward;
 
   return pendingReward;
 }

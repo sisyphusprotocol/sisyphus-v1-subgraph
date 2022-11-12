@@ -11,7 +11,7 @@ dataSources:
     source:
       address: "0xE44C3974E7a8659b37fb2959a9Ea91560498Aac3"
       abi: CampaignFactoryUpgradable
-      startBlock: 28945231
+      startBlock: 29048925
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

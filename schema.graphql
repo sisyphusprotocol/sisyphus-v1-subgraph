@@ -99,6 +99,7 @@ type Challenge @entity {
 
   agreeCount: BigInt!
   disagreeCount: BigInt!
+  noVoteCount: BigInt!
   result: ChallengeResult!
 }
 

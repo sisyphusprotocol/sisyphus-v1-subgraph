@@ -140,9 +140,7 @@ export function readChallengeRiseTimeStamp(
   challengeId: BigInt
 ): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  const timestamp = cc
-    .challengeRecords(challengeId)
-    .getChallengeRiseTime();
+  const timestamp = cc.challengeRecords(challengeId).getChallengeRiseTime();
 
   return timestamp;
 }
@@ -282,7 +280,7 @@ export function fetchChallenge(
 
     // TODO: read dynamic length after contract add this function
     challenge.deadline = readChallengeRiseTimeStamp(campaign, challengeId).plus(
-      new BigInt(604800)
+      BigInt.fromI32(604800)
     );
     challenge.number = challengeId;
     challenge.campaign = campaign.id;
@@ -292,6 +290,7 @@ export function fetchChallenge(
     challenge.result = "Voting";
     challenge.agreeCount = new BigInt(0);
     challenge.disagreeCount = new BigInt(0);
+    challenge.noVoteCount = campaign.memberCount;
 
     challenge.save();
   }

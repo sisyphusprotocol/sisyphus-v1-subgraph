@@ -65,14 +65,14 @@ export function readSharedReward(campaign: Campaign): BigInt {
 
 export function readRequiredAmount(campaign: Campaign): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  let requiredAmoutValue = new BigInt(0);
-  let requiredAmoutResult = cc.try_requiredAmount();
+  let requiredAmountValue = new BigInt(0);
+  let requiredAmountResult = cc.try_requiredAmount();
 
-  if (!requiredAmoutResult.reverted) {
-    requiredAmoutValue = requiredAmoutResult.value;
+  if (!requiredAmountResult.reverted) {
+    requiredAmountValue = requiredAmountResult.value;
   }
 
-  return requiredAmoutValue;
+  return requiredAmountValue;
 }
 
 export function readTokenOwner(campaign: Campaign, tokenId: BigInt): Address {
@@ -290,7 +290,7 @@ export function fetchChallenge(
     challenge.result = "Voting";
     challenge.agreeCount = new BigInt(0);
     challenge.disagreeCount = new BigInt(0);
-    challenge.noVoteCount = campaign.memberCount;
+    challenge.noVoteCount = campaign.memberCount.minus(BigInt.fromI32(2));
 
     challenge.save();
   }

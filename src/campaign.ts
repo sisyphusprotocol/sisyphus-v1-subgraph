@@ -1,5 +1,4 @@
-import { BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts";
-import { Campaign, UserCampaign } from "../generated/schema";
+import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
   EvCampaignUriSet,
   EvChallenge,
@@ -154,9 +153,33 @@ export function handleVote(event: EvVote): void {
 
   const userVote = fetchUserVote(voter, challenge);
 
-  userVote.choice = readChallengeVote(
+  const newChoice = readChallengeVote(
     campaign,
     event.params.tokenId,
     challenge
   );
+
+  // whether it's user first vote for this campaign
+  if (userVote.get("choice") == null) {
+    challenge.noVoteCount = challenge.noVoteCount.minus(BigInt.fromI32(1));
+    if (newChoice == true) {
+      challenge.agreeCount = challenge.agreeCount.plus(BigInt.fromI32(1));
+    } else {
+      challenge.disagreeCount = challenge.disagreeCount.plus(BigInt.fromI32(1));
+    }
+  } else {
+    if (newChoice == true && userVote.choice == false) {
+      challenge.agreeCount = challenge.agreeCount.plus(BigInt.fromI32(1));
+      challenge.disagreeCount = challenge.disagreeCount.minus(
+        BigInt.fromI32(1)
+      );
+    } else if (newChoice == false && userVote.choice == true) {
+      challenge.agreeCount = challenge.agreeCount.minus(BigInt.fromI32(1));
+      challenge.disagreeCount = challenge.disagreeCount.plus(BigInt.fromI32(1));
+    }
+  }
+
+  userVote.choice = newChoice;
+  challenge.save();
+  userVote.save();
 }

@@ -108,6 +108,7 @@ export function fetchUser(address: string): User {
   if (user == null) {
     user = new User(address);
     user.canBeHost = false;
+    user.address = address;
   }
   user.save();
   return user;
@@ -119,6 +120,7 @@ export function fetchCampaign(address: string): Campaign {
     campaign = new Campaign(address);
     campaign.startTime = readStartTime(campaign);
     campaign.periodLength = readPeriod(campaign);
+    campaign.epochCount = readTotalEpochsCount(campaign);
     campaign.totalTime = readPeriod(campaign).times(
       readTotalEpochsCount(campaign)
     );

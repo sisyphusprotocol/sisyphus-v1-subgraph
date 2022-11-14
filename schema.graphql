@@ -1,6 +1,8 @@
 type User @entity {
   # user address
   id: ID!
+  "same as id"
+  address: String!
   canBeHost: Boolean!
   #
   campaignParticipated: [UserCampaign!]! @derivedFrom(field: "user")
@@ -13,9 +15,15 @@ type Campaign @entity {
 
   uri: String!
 
+  "when start"
   startTime: BigInt!
+  "how long a period"
   periodLength: BigInt!
+  "total Time"
   totalTime: BigInt!
+  "How many epochs this campaign has"
+  epochCount: BigInt!
+  "When the campaign end"
   endTime: BigInt!
 
   "how many join the campaign"
@@ -24,6 +32,7 @@ type Campaign @entity {
   targetToken: Token!
   requiredAmount: BigInt!
   sharedReward: BigInt!
+  "whether reward distribution is settled"
   settled: Boolean!
   successCount: BigInt!
 }
@@ -46,13 +55,12 @@ type UserCampaign @entity {
 
   #
   userRewardClaimed: Boolean!
-  # 
+  #
   userRewardClaimedAmount: BigInt
 
   #
   hostRewardClaimed: Boolean!
   hostRewardClaimedAmount: BigInt
-
 
   records: [Record!] @derivedFrom(field: "userCampaign")
 }
@@ -77,6 +85,6 @@ enum UserStatus {
   Signed
   Admitted
   Refused
-  Sucess
+  Success
   Failure
 }

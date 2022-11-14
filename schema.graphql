@@ -82,6 +82,37 @@ type Record @entity {
   userCampaign: UserCampaign!
 }
 
+type Challenge @entity {
+  "user address + challenge id"
+  id: ID!
+  " challenge id"
+  number: BigInt!
+  campaign: Campaign!
+  challenger: User!
+  cheater: User!
+
+  record: Record!
+  agreeCount: BigInt!
+  disagreeCount: BigInt!
+  result: ChallengeResult!
+}
+
+type UserVote @entity {
+  "user id - challenge id"
+  id: ID!
+  user: User!
+  campaign: Campaign!
+  challenge: Challenge!
+  choice: Boolean
+}
+
+enum ChallengeResult {
+  NotDecided
+  VoteNotEnough
+  Approved
+  Failed
+}
+
 enum UserStatus {
   NotParticipate
   Signed

@@ -1,10 +1,12 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import {
   Campaign,
+  Challenge,
   Record,
   Token,
   User,
   UserCampaign,
+  UserVote,
 } from "../generated/schema";
 
 import { Campaign as CampaignContract } from "../generated/templates/Campaign/Campaign";
@@ -103,6 +105,47 @@ export function readTotalEpochsCount(campaign: Campaign): BigInt {
   return readTotalEpochsCount;
 }
 
+export function readChallengeEpoch(
+  campaign: Campaign,
+  challengeId: BigInt
+): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const epoch = cc.challengeRecords(challengeId).value2;
+
+  return epoch;
+}
+
+export function readChallengeChallengerId(
+  campaign: Campaign,
+  challenge: BigInt
+): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const challengerId = cc.challengeRecords(challenge).value0;
+
+  return challengerId;
+}
+
+export function readChallengeCheaterId(
+  campaign: Campaign,
+  challenge: BigInt
+): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const challengerId = cc.challengeRecords(challenge).value1;
+
+  return challengerId;
+}
+
+export function readChallengeVote(
+  campaign: Campaign,
+  tokenId: BigInt,
+  challenge: Challenge
+): boolean {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const voteChoice = cc.voters(challenge.number, tokenId).getChoice();
+
+  return voteChoice;
+}
+
 export function fetchUser(address: string): User {
   let user = User.load(address);
   if (user == null) {
@@ -194,4 +237,62 @@ export function fetchRecord(
   record.save();
 
   return record;
+}
+
+export function fetchChallenge(
+  challengeId: BigInt,
+  campaign: Campaign
+): Challenge {
+  let challenge = Challenge.load(challengeId.toString());
+
+  if (challenge === null) {
+    challenge = new Challenge(challengeId.toString());
+
+    const challenger = fetchUser(
+      readTokenOwner(
+        campaign,
+        readChallengeChallengerId(campaign, challengeId)
+      ).toString()
+    );
+
+    const cheater = fetchUser(
+      readTokenOwner(
+        campaign,
+        readChallengeCheaterId(campaign, challengeId)
+      ).toString()
+    );
+
+    const record = fetchRecord(
+      cheater,
+      campaign,
+      readChallengeEpoch(campaign, challengeId)
+    );
+
+    challenge.number = challengeId;
+    challenge.campaign = campaign.id;
+    challenge.challenger = challenger.id;
+    challenge.cheater = cheater.id;
+    challenge.record = record.id;
+    challenge.result = "NotDecided";
+    challenge.agreeCount = new BigInt(0);
+    challenge.disagreeCount = new BigInt(0);
+
+    challenge.save();
+  }
+
+  return challenge;
+}
+
+export function fetchUserVote(user: User, challenge: Challenge): UserVote {
+  let userVote = UserVote.load(`${user.id}-${challenge.id}`);
+  if (userVote == null) {
+    userVote = new UserVote(`${user.id}-${challenge.id}`);
+    userVote.user = user.id;
+    userVote.campaign = challenge.campaign;
+    userVote.challenge = challenge.id;
+
+    userVote.save();
+  }
+
+  return userVote;
 }

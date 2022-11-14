@@ -2,12 +2,14 @@ import { BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts";
 import { Campaign, UserCampaign } from "../generated/schema";
 import {
   EvCampaignUriSet,
+  EvChallenge,
   EvCheckIn,
   EvClaimReward,
   EvFailure,
   EvRegisterSuccessfully,
   EvSettle,
   EvSignUp,
+  EvVote,
   EvWithDraw,
 } from "../generated/templates/Campaign/Campaign";
 import {
@@ -22,6 +24,9 @@ import {
   readPendingUserReward,
   readSuccessCount,
   readSharedReward,
+  fetchChallenge,
+  fetchUserVote,
+  readChallengeVote,
 } from "./helper";
 
 export function handleSignUp(event: EvSignUp): void {
@@ -129,4 +134,29 @@ export function handleWithDraw(event: EvWithDraw): void {
 export function handleCampaignUriSet(event: EvCampaignUriSet): void {
   const campaign = fetchCampaign(event.address.toHexString());
   campaign.save();
+}
+
+export function handleChallenge(event: EvChallenge): void {
+  const campaign = fetchCampaign(event.address.toHexString());
+
+  const challenge = fetchChallenge(event.params.challengeRecordId, campaign);
+
+  challenge.save();
+}
+
+export function handleVote(event: EvVote): void {
+  const campaign = fetchCampaign(event.address.toHexString());
+
+  const challenge = fetchChallenge(event.params.challengeRecordId, campaign);
+  const voter = fetchUser(
+    readTokenOwner(campaign, event.params.tokenId).toHexString()
+  );
+
+  const userVote = fetchUserVote(voter, challenge);
+
+  userVote.choice = readChallengeVote(
+    campaign,
+    event.params.tokenId,
+    challenge
+  );
 }

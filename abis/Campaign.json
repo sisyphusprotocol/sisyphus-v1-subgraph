@@ -471,6 +471,11 @@
         "internalType": "uint256",
         "name": "cheaterId",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "epoch",
+        "type": "uint256"
       }
     ],
     "name": "challenge",
@@ -509,6 +514,11 @@
       {
         "internalType": "uint256",
         "name": "cheaterId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "epoch",
         "type": "uint256"
       },
       {

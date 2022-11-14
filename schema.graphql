@@ -80,6 +80,7 @@ type Record @entity {
   contentUri: String!
   timestamp: BigInt!
   userCampaign: UserCampaign!
+  challenge: Challenge @derivedFrom(field: "record")
 }
 
 type Challenge @entity {
@@ -91,7 +92,11 @@ type Challenge @entity {
   challenger: User!
   cheater: User!
 
+  "When the voting is end"
+  deadline: BigInt!
+
   record: Record!
+
   agreeCount: BigInt!
   disagreeCount: BigInt!
   result: ChallengeResult!
@@ -107,7 +112,7 @@ type UserVote @entity {
 }
 
 enum ChallengeResult {
-  NotDecided
+  Voting
   VoteNotEnough
   Approved
   Failed

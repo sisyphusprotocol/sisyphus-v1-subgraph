@@ -110,29 +110,41 @@ export function readChallengeEpoch(
   challengeId: BigInt
 ): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  const epoch = cc.challengeRecords(challengeId).value2;
+  const epoch = cc.challengeRecords(challengeId).getEpoch();
 
   return epoch;
 }
 
 export function readChallengeChallengerId(
   campaign: Campaign,
-  challenge: BigInt
+  challengeId: BigInt
 ): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  const challengerId = cc.challengeRecords(challenge).value0;
+  const challengerId = cc.challengeRecords(challengeId).getChallengerId();
 
   return challengerId;
 }
 
 export function readChallengeCheaterId(
   campaign: Campaign,
-  challenge: BigInt
+  challengeId: BigInt
 ): BigInt {
   const cc = CampaignContract.bind(Address.fromString(campaign.id));
-  const challengerId = cc.challengeRecords(challenge).value1;
+  const cheaterId = cc.challengeRecords(challengeId).getCheaterId();
 
-  return challengerId;
+  return cheaterId;
+}
+
+export function readChallengeRiseTimeStamp(
+  campaign: Campaign,
+  challengeId: BigInt
+): BigInt {
+  const cc = CampaignContract.bind(Address.fromString(campaign.id));
+  const timestamp = cc
+    .challengeRecords(challengeId)
+    .getChallengeRiseTime();
+
+  return timestamp;
 }
 
 export function readChallengeVote(
@@ -252,14 +264,14 @@ export function fetchChallenge(
       readTokenOwner(
         campaign,
         readChallengeChallengerId(campaign, challengeId)
-      ).toString()
+      ).toHexString()
     );
 
     const cheater = fetchUser(
       readTokenOwner(
         campaign,
         readChallengeCheaterId(campaign, challengeId)
-      ).toString()
+      ).toHexString()
     );
 
     const record = fetchRecord(
@@ -268,12 +280,16 @@ export function fetchChallenge(
       readChallengeEpoch(campaign, challengeId)
     );
 
+    // TODO: read dynamic length after contract add this function
+    challenge.deadline = readChallengeRiseTimeStamp(campaign, challengeId).plus(
+      new BigInt(604800)
+    );
     challenge.number = challengeId;
     challenge.campaign = campaign.id;
     challenge.challenger = challenger.id;
     challenge.cheater = cheater.id;
     challenge.record = record.id;
-    challenge.result = "NotDecided";
+    challenge.result = "Voting";
     challenge.agreeCount = new BigInt(0);
     challenge.disagreeCount = new BigInt(0);
 

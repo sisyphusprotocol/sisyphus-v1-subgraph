@@ -9,8 +9,10 @@ type User @entity {
 }
 
 type Campaign @entity {
-  # Campaign address
+  "save as campaign address"
   id: ID!
+  "Campaign address"
+  address: String!
   users: [UserCampaign!]! @derivedFrom(field: "campaign")
 
   uri: String!

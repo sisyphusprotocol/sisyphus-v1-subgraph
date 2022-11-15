@@ -5,6 +5,7 @@ import {
   EvCheckIn,
   EvClaimReward,
   EvFailure,
+  EvModifyRegistry,
   EvRegisterSuccessfully,
   EvSettle,
   EvSignUp,
@@ -56,13 +57,34 @@ export function handleRegisterSuccessfully(
   const userCampaign = fetchUserCampaign(user, campaign);
 
   // TODO: delete if disallow
-
   campaign.memberCount = campaign.memberCount.plus(BigInt.fromI64(1));
 
   userCampaign.userStatus = "Admitted";
 
   campaign.save();
   userCampaign.save();
+}
+
+export function handleModifyRegistry(event: EvModifyRegistry): void {
+  const campaign = fetchCampaign(event.address.toHexString());
+
+  for (let index = 0; index < event.params.tokenList.length; index++) {
+    const user = fetchUser(
+      readTokenOwner(campaign, event.params.tokenList[index]).toHexString()
+    );
+    const userCampaign = fetchUserCampaign(user, campaign);
+
+    if (event.params.status[index]) {
+      campaign.memberCount = campaign.memberCount.plus(BigInt.fromI64(1));
+      userCampaign.userStatus = "Admitted";
+    } else {
+      campaign.memberCount = campaign.memberCount.minus(BigInt.fromI64(1));
+      userCampaign.userStatus = "Signed";
+    }
+
+    campaign.save();
+    userCampaign.save();
+  }
 }
 
 export function handleCheckIn(event: EvCheckIn): void {

@@ -31,7 +31,6 @@ dataSources:
         - event: EvWhiteTokenSet(indexed address,uint256)
           handler: handleWhiteTokenSet
       file: ./src/campaign-factory.ts
-
 templates:
   - name: Campaign
     kind: ethereum

@@ -253,10 +253,10 @@ export function fetchChallenge(
   challengeId: BigInt,
   campaign: Campaign
 ): Challenge {
-  let challenge = Challenge.load(challengeId.toString());
+  let challenge = Challenge.load(`${campaign.id}-${challengeId.toString()}`);
 
-  if (challenge === null) {
-    challenge = new Challenge(challengeId.toString());
+  if (challenge == null) {
+    challenge = new Challenge(`${campaign.id}-${challengeId.toString()}`);
 
     const challenger = fetchUser(
       readTokenOwner(
@@ -280,7 +280,7 @@ export function fetchChallenge(
 
     // TODO: read dynamic length after contract add this function
     challenge.deadline = readChallengeRiseTimeStamp(campaign, challengeId).plus(
-      BigInt.fromI32(604800)
+      BigInt.fromI32(86400)
     );
     challenge.number = challengeId;
     challenge.campaign = campaign.id;

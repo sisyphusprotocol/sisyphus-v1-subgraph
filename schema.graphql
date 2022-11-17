@@ -84,7 +84,7 @@ type Record @entity {
 }
 
 type Challenge @entity {
-  "user address + challenge id"
+  "campaign address + challenge id"
   id: ID!
   " challenge id"
   number: BigInt!

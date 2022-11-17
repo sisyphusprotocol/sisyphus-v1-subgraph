@@ -497,6 +497,38 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "challengeLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "challengeList",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -537,18 +569,13 @@
         "type": "uint256"
       },
       {
-        "internalType": "bool",
+        "internalType": "enum ICampaign.ChallengeResult",
         "name": "result",
-        "type": "bool"
+        "type": "uint8"
       },
       {
         "internalType": "bool",
-        "name": "state",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "legal",
+        "name": "judged",
         "type": "bool"
       }
     ],
@@ -638,7 +665,18 @@
       }
     ],
     "name": "claim",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "userBonus",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "hostBonus",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -781,6 +819,11 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "challengeLength_",
+        "type": "uint256"
+      },
+      {
         "internalType": "string",
         "name": "campaignUri_",
         "type": "string"
@@ -823,7 +866,7 @@
         "type": "uint256"
       }
     ],
-    "name": "judgement",
+    "name": "judge",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
